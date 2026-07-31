@@ -17,11 +17,11 @@ beforeEach(() => {
             codename: "LASER PIGEON",
             mode: "stealth",
             modeLabel: "Stealth",
-            badge: "BOT APPROVED",
+            badge: "LASER READY",
             accent: "#22c55e",
-            energy: 87,
+            energy: 47,
             danceMove: "Servo Spin",
-            secretPhrase: "STEALTH-12-5",
+            secretPhrase: "STEALTH-12-7",
             challenge: "Submit a codename and confirm the stealth checklist is revealed.",
             checklist: [
               "Boot sequence ready for LASER PIGEON.",
@@ -58,8 +58,8 @@ test("renders the bot drill result after submitting the form", async () => {
     expect(screen.getByText("LASER PIGEON")).toBeInTheDocument();
   });
 
-  expect(screen.getByText(/bot approved/i)).toBeInTheDocument();
+  expect(screen.getByText(/laser ready/i)).toBeInTheDocument();
   expect(screen.getByText(/stealth mode/i)).toBeInTheDocument();
   expect(screen.getByText(/servo spin/i)).toBeInTheDocument();
-  expect(screen.getByText(/stealth-12-5/i)).toBeInTheDocument();
+  expect(screen.getByText(/stealth-12-7/i)).toBeInTheDocument();
 });

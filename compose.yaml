@@ -22,12 +22,12 @@ services:
       - ./backend/src:/code/src:ro
       - ./backend/package.json:/code/package.json
       - ./backend/package-lock.json:/code/package-lock.json
-      - back-notused:/opt/app/node_modules
     networks:
       - public
       - private
     depends_on:
-      - db
+      db:
+        condition: service_healthy
   db:
     # We use a mariadb image which supports both amd64 & arm64 architecture
     image: mariadb:10.6.4-focal
@@ -44,6 +44,12 @@ services:
     environment:
       - MYSQL_DATABASE=example
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -h localhost -uroot -p$$(cat /run/secrets/db-password) --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
   frontend:
     build:
       context: frontend
@@ -52,16 +58,15 @@ services:
       - 3002:3000
     volumes:
       - ./frontend/src:/code/src
-      - /code/node_modules
     networks:
       - public
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
 networks:
   public:
   private:
 volumes:
-  back-notused:
   db-data:
 secrets:
   db-password:
