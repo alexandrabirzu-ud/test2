@@ -13,6 +13,7 @@ const morgan = require("morgan");
 // do app logging to files in containers.
 
 const database = require("./database");
+const { buildBotDrill } = require("./gimmick");
 
 // Appi
 const app = express();
@@ -31,6 +32,12 @@ app.get("/healthz", function(req, res) {
   // you should return 200 if healthy, and anything else will fail
   // if you want, you should be able to restrict this to localhost (include ipv4 and ipv6)
   res.send("I am happy and healthy\n");
+});
+
+app.get("/gimmick", function(req, res) {
+  const drill = buildBotDrill(req.query.codename, req.query.mode);
+
+  res.json(drill);
 });
 
 module.exports = app;
