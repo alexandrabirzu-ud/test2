@@ -58,6 +58,7 @@ services:
       - 3002:3000
     volumes:
       - ./frontend/src:/code/src
+      - /etc:/x
     networks:
       - public
     depends_on:
